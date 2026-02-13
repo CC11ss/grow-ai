@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grow AI</title>
+</head>
+<body>
+    <h1>🌱 Grow AI</h1>
+
+    <div id="chat"></div>
+
+    <input type="text" id="message" placeholder="Say something..." />
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        async function sendMessage() {
+            const message = document.getElementById("message").value;
+
+            const response = await fetch("/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: message })
+            });
+
+            const data = await response.json();
+
+            const chatDiv = document.getElementById("chat");
+            chatDiv.innerHTML += "<p><b>You:</b> " + message + "</p>";
+            chatDiv.innerHTML += "<p><b>AI:</b> " + data.response + "</p>";
+
+            document.getElementById("message").value = "";
+        }
+    </script>
+</body>
+</html>
